@@ -7,9 +7,6 @@
     ab und verwendet pro Benutzer den Maximalwert. Das ist der exakteste verfügbare
     Wert für die letzte Anmeldung im AD.
 
-.PARAMETER Days
-    Zeitfenster in Tagen. Standard: 90.
-
 .EXAMPLE
     .\Get-ActiveADUsers.ps1
 
