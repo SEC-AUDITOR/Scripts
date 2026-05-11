@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="https://sec-auditor.com/wp-content/uploads/sec-auditor-logo.png" alt="SEC AUDITOR" width="280" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://assets.sec-auditor.com/images/logo_gradient_negative.svg" />
+    <img src="https://assets.sec-auditor.com/images/logo_gradient.svg" alt="SEC AUDITOR" width="280" />
+  </picture>
 </p>
 
 <h1 align="center">SEC AUDITOR – PowerShell Skript-Sammlung</h1>
