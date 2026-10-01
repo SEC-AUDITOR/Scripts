@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     SEC AUDITOR: Zählt aktive Benutzer im Active Directory (on-prem und hybrid).
 
@@ -8,10 +8,10 @@
     Wert für die letzte Anmeldung im AD.
 
 .EXAMPLE
-    .\Get-ActiveADUsers.ps1
+    .\Count-BillableUsers_OnPrem.ps1
 
 .EXAMPLE
-    .\Get-ActiveADUsers.ps1
+    .\Count-BillableUsers_OnPrem.ps1
 #>
 
 [int]$Days = 90

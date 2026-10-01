@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     SEC AUDITOR: Zählt aktive Benutzer in Entra ID (Cloud-only).
 
@@ -30,10 +30,10 @@
     Bei Problemen mit Consent die konkrete Tenant-ID angeben.
 
 .EXAMPLE
-    .\Get-ActiveEntraUsers.ps1
+    .\Count-BillableUsers_Entra.ps1
 
 .EXAMPLE
-    .\Get-ActiveEntraUsers.ps1 -TenantId "contoso.onmicrosoft.com"
+    .\Count-BillableUsers_Entra.ps1 -TenantId "contoso.onmicrosoft.com"
 #>
 
 [CmdletBinding()]
@@ -41,7 +41,7 @@ param(
     [string]$TenantId = 'organizations'
 )
 
-[int]$Days = 90,
+[int]$Days = 90
 
 # Microsoft Graph Command Line Tools (öffentliche Multi-Tenant App von Microsoft)
 $ClientId = '14d82eec-204b-4c2f-b7e8-296a70dab67e'
@@ -66,6 +66,15 @@ function Get-GraphError($ErrorRecord) {
         }
     } catch {}
     return $null
+}
+
+# --- Hilfsfunktion: Graph-Zeitstempel (ISO 8601, UTC) unabhaengig von Sprache und PowerShell-Version lesen ---
+# PowerShell 7 liefert bereits ein DateTime, PowerShell 5.1 einen String. [DateTime]::Parse ohne Kultur
+# scheitert unter de-DE an PowerShell-7-Werten und vergleicht unter 5.1 Ortszeit mit UTC.
+function ConvertTo-UtcDateTime($Value) {
+    if ($Value -is [DateTime]) { return $Value.ToUniversalTime() }
+    return [DateTime]::Parse([string]$Value, [Globalization.CultureInfo]::InvariantCulture,
+        [Globalization.DateTimeStyles]::AssumeUniversal -bor [Globalization.DateTimeStyles]::AdjustToUniversal)
 }
 
 # --- Device Code Flow ---
@@ -288,10 +297,10 @@ do {
             $lastNonInteractive = $null
 
             if ($u.signInActivity.lastSignInDateTime) {
-                $lastInteractive = [DateTime]::Parse($u.signInActivity.lastSignInDateTime)
+                $lastInteractive = ConvertTo-UtcDateTime $u.signInActivity.lastSignInDateTime
             }
             if ($u.signInActivity.lastNonInteractiveSignInDateTime) {
-                $lastNonInteractive = [DateTime]::Parse($u.signInActivity.lastNonInteractiveSignInDateTime)
+                $lastNonInteractive = ConvertTo-UtcDateTime $u.signInActivity.lastNonInteractiveSignInDateTime
             }
 
             $lastActivity = $null
