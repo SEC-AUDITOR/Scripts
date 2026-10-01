@@ -12,7 +12,7 @@ $password = "yyy"
 $accessToken = ""
 
 # api detail
-$apiEndpoint = "https://next-api.sec-auditor.com/api/v1"
+$apiEndpoint = "https://api.sec-auditor.com/api/v2"
 
 # Prepare the request body
 $body = @{
